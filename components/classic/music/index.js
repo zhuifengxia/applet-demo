@@ -11,8 +11,12 @@ Component({
     src:String
   },
 
+  attached:function(event){
+    this._recoverStatus()
+    this._monitorSwitch()
+  },
+
   detached:function(event){
-    mMgr.stop()
   },
   /**
    * 组件的初始数据
@@ -42,6 +46,33 @@ Component({
         mMgr.pause()
       }
       
+    },
+    _recoverStatus:function(){
+      if(mMgr.paused){
+        this.setData({
+          playing:false
+        })
+        return
+      }
+      if(mMgr.src == this.properties.src){
+        this.setData({
+          playing:true
+        })
+      }
+    },
+    _monitorSwitch:function(event){
+      mMgr.onPlay(()=>{
+        this._recoverStatus()
+      })
+      mMgr.onPause(()=>{
+        this._recoverStatus()
+      })
+      mMgr.onStop(()=>{
+        this._recoverStatus()
+      })
+      mMgr.onEnded(()=>{
+        this._recoverStatus()
+      })
     }
   }
 });
