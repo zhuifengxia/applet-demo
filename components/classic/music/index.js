@@ -1,6 +1,6 @@
 import { classicBeh } from "../classic-beh.js";
 
-const mMgr = wx.getBackgroundAudioManager()
+const mMgr = wx.getBackgroundAudioManager();
 
 Component({
   /**
@@ -8,21 +8,20 @@ Component({
    */
   behaviors: [classicBeh],
   properties: {
-    src:String
+    src: String
   },
 
-  attached:function(event){
-    this._recoverStatus()
-    this._monitorSwitch()
+  attached(event) {
+    this._recoverStatus();
+    this._monitorSwitch();
   },
 
-  detached:function(event){
-  },
+  detached: function(event) {},
   /**
    * 组件的初始数据
    */
   data: {
-    playing:false,
+    playing: false,
     pauseSrc: "images/player@pause.png",
     playSrc: "images/player@play.png"
   },
@@ -31,48 +30,47 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    onPlay:function(event){
+    onPlay: function(event) {
       //图片切换
-      if(!this.data.playing){
+      if (!this.data.playing) {
         this.setData({
-          playing:true
-        })
-        mMgr.title = this.properties.src
-        mMgr.src = this.properties.src
-      }else{
+          playing: true
+        });
+        mMgr.title = this.properties.src;
+        mMgr.src = this.properties.src;
+      } else {
         this.setData({
-          playing:false
-        })
-        mMgr.pause()
-      }
-      
-    },
-    _recoverStatus:function(){
-      if(mMgr.paused){
-        this.setData({
-          playing:false
-        })
-        return
-      }
-      if(mMgr.src == this.properties.src){
-        this.setData({
-          playing:true
-        })
+          playing: false
+        });
+        mMgr.pause();
       }
     },
-    _monitorSwitch:function(event){
-      mMgr.onPlay(()=>{
-        this._recoverStatus()
-      })
-      mMgr.onPause(()=>{
-        this._recoverStatus()
-      })
-      mMgr.onStop(()=>{
-        this._recoverStatus()
-      })
-      mMgr.onEnded(()=>{
-        this._recoverStatus()
-      })
+    _recoverStatus: function() {
+      if (mMgr.paused) {
+        this.setData({
+          playing: false
+        });
+        return;
+      }
+      if (mMgr.src == this.properties.src) {
+        this.setData({
+          playing: true
+        });
+      }
+    },
+    _monitorSwitch: function(event) {
+      mMgr.onPlay(() => {
+        this._recoverStatus();
+      });
+      mMgr.onPause(() => {
+        this._recoverStatus();
+      });
+      mMgr.onStop(() => {
+        this._recoverStatus();
+      });
+      mMgr.onEnded(() => {
+        this._recoverStatus();
+      });
     }
   }
 });
