@@ -1,11 +1,14 @@
 import { BookModel } from "../../models/book.js";
+import { random } from "../../util/common.js";
 const bookModel = new BookModel();
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    books:[]
+    books: [],
+    searching: false,
+    more: ""
   },
 
   /**
@@ -15,8 +18,18 @@ Page({
     const hotlist = bookModel.getHotList();
     hotlist.then(res => {
       this.setData({
-        books:res
-      })
+        books: res
+      });
+    });
+  },
+  onSearching(event) {
+    this.setData({
+      searching: true
+    });
+  },
+  onCancel(event) {
+    this.setData({
+      searching: false
     });
   },
 
@@ -48,7 +61,11 @@ Page({
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function() {},
+  onReachBottom: function() {
+    this.setData({
+      more: random(16)
+    });
+  },
 
   /**
    * 用户点击右上角分享
