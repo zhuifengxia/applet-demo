@@ -17,27 +17,20 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
+    wx.showLoading();
     const bid = options.bid;
-
     const detail = bookModel.getDetail(bid);
     const comments = bookModel.getComments(bid);
     const likeStatus = bookModel.getLikeStatus(bid);
-    detail.then(res => {
+    Promise.all([detail, comments, likeStatus]).then(res => {
       this.setData({
-        book: res
+        book: res[0],
+        comments: res[1].comments,
+        likeStatus: res[2].like_status,
+        likeCount: res[2].fav_nums
       });
-    });
-    comments.then(res => {
-      this.setData({
-        comments: res.comments
-      });
-    });
-    likeStatus.then(res => {
-      this.setData({
-        likeStatus: res.like_status,
-        likeCount: res.fav_nums
-      });
+      wx.hideLoading();
     });
   },
   onLike(event) {
@@ -55,67 +48,66 @@ Page({
     });
   },
   onPost(event) {
-    const comment = event.detail.text || event.detail.value
+    const comment = event.detail.text || event.detail.value;
     if (!comment) {
-      return
+      return;
     }
     if (comment.length > 12) {
       wx.showToast({
-        title: '短评最多12个字',
-        icon: 'none'
+        title: "短评最多12个字",
+        icon: "none"
       });
-      return
+      return;
     }
-    bookModel.postComment(this.data.book.id, comment)
-      .then(res => {
-        wx.showToast({
-          title: '+1',
-          icon: 'none'
-        });
+    bookModel.postComment(this.data.book.id, comment).then(res => {
+      wx.showToast({
+        title: "+1",
+        icon: "none"
+      });
 
-        this.data.comments.unshift({
-          content: comment,
-          nums: 1
-        })
+      this.data.comments.unshift({
+        content: comment,
+        nums: 1
+      });
 
-        this.setData({
-          comments: this.data.comments,
-          posting: false
-        })
-      })
+      this.setData({
+        comments: this.data.comments,
+        posting: false
+      });
+    });
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () { },
+  onReady: function() {},
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () { },
+  onShow: function() {},
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () { },
+  onHide: function() {},
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () { },
+  onUnload: function() {},
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () { },
+  onPullDownRefresh: function() {},
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () { },
+  onReachBottom: function() {},
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () { }
+  onShareAppMessage: function() {}
 });
