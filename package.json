@@ -1,0 +1,22 @@
+{
+  "name": "applet-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhuifengxia/applet-demo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhuifengxia/applet-demo/issues"
+  },
+  "homepage": "https://github.com/zhuifengxia/applet-demo#readme",
+  "dependencies": {
+    "lin-ui": "^0.6.13"
+  }
+}

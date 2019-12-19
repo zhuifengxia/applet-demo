@@ -3,9 +3,12 @@
         <v-episode class="episode" index="{{classic.index}}"></v-episode>
         <view class="like-container">
             <v-like class="like" bind:like="onLike" like="{{likeStatus}}" count="{{likeCount}}"></v-like>
-            <v-button class="share-btn" open-type="share">
+            <!-- <v-button class="share-btn" open-type="share">
                 <image class="share" slot="img" src="/images/icon/share.png" />
-            </v-button>
+            </v-button> -->
+            <l-button special="{{true}}" open-type="share">
+                <image class="share" src="/images/icon/share.png" />
+            </l-button>
         </view>
     </view>
     <v-movie hidden="{{classic.type!=100}}" img="{{classic.image}}" content="{{classic.content}}"></v-movie>

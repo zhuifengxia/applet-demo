@@ -1,5 +1,8 @@
 import { ClassicModel } from "../../models/classic.js";
 import { BookModel } from "../../models/book.js";
+import {
+  promisic
+} from '../../util/common.js'
 const classicModel = new ClassicModel();
 const bookModel = new BookModel();
 Page({
@@ -16,10 +19,8 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
-    this.userAuthorized();
-    this.getMyBookCount();
-    this.getMyFavor();
+  onLoad: function (options) {
+
   },
   userAuthorized() {
     wx.getSetting({
@@ -36,6 +37,33 @@ Page({
         }
       }
     });
+  },
+  userAuthorized1() {
+    promisic(wx.getSetting)()
+      .then(data => {
+        if (data.authSetting['scope.userInfo']) {
+          return promisic(wx.getUserInfo)()
+        }
+        return false
+      })
+      .then(data => {
+        if (!data) return
+        this.setData({
+          authorized: true,
+          userInfo: data.userInfo
+        })
+      })
+
+  },
+  async userAuthorized2() {
+    const data = await promisic(wx.getSetting)()
+    if (data.authSetting['scope.userInfo']) {
+      const res = await promisic(wx.getUserInfo)()
+      this.setData({
+        authorized: true,
+        userInfo: res.userInfo
+      })
+    }
   },
   async getMyBookCount() {
     const bookCount = await bookModel.getMyBookCount();
@@ -80,35 +108,39 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {},
+  onReady: function () { },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {},
+  onShow: function () {
+    this.userAuthorized2();
+    this.getMyBookCount();
+    this.getMyFavor();
+  },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function() {},
+  onHide: function () { },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function() {},
+  onUnload: function () { },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function() {},
+  onPullDownRefresh: function () { },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function() {},
+  onReachBottom: function () { },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {}
+  onShareAppMessage: function () { }
 });
