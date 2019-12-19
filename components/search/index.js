@@ -23,7 +23,6 @@ Component({
     hotWords: [],
     searching: false,
     q: "",
-    loading: false,
     loadingCenter: false
   },
 
@@ -45,19 +44,19 @@ Component({
       if (!this.data.q) {
         return;
       }
-      if (this._isLocked()) {
+      if (this.isLocked()) {
         return;
       }
 
       if (this.hasMore()) {
-        this._locked();
+        this.locked();
         bookModel.search(this.getCurrentStart(), this.data.q).then(
           res => {
             this.setMoreData(res.books);
-            this._unLocked();
+            this.unLocked();
           },
           () => {
-            this._unLocked();
+            this.unLocked();
           }
         );
       }
@@ -105,19 +104,6 @@ Component({
       this.setData({
         searching: false,
         q: ""
-      });
-    },
-    _isLocked() {
-      return this.data.loading ? true : false;
-    },
-    _locked() {
-      this.setData({
-        loading: true
-      });
-    },
-    _unLocked() {
-      this.setData({
-        loading: false
       });
     }
   }
