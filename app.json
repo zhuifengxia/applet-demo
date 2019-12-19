@@ -3,7 +3,10 @@
     "pages/classic/classic",
     "pages/book/book",
     "pages/my/my",
-    "pages/book-detail/book-detail"
+    "pages/book-detail/book-detail",
+    "pages/about/about",
+    "pages/course/course",
+    "pages/classic-detail/classic-detail"
   ],
   "window": {
     "navigationBarTitleText": "一米阳光",

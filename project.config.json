@@ -6,6 +6,7 @@
 	"setting": {
 		"urlCheck": false,
 		"es6": true,
+		"enhance": true,
 		"postcss": true,
 		"minified": true,
 		"newFeature": true,
@@ -18,7 +19,8 @@
 			"ignore": [],
 			"disablePlugins": [],
 			"outputPath": ""
-		}
+		},
+		"nodeModules": true
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.9.4",
@@ -52,8 +54,8 @@
 			"list": [
 				{
 					"id": 0,
-					"name": "pages/book/book",
-					"pathName": "pages/book/book",
+					"name": "pages/my/my",
+					"pathName": "pages/my/my",
 					"query": "bid=7",
 					"scene": null
 				}

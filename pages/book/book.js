@@ -14,12 +14,10 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
-    const hotlist = bookModel.getHotList();
-    hotlist.then(res => {
-      this.setData({
-        books: res
-      });
+  async onLoad(options) {
+    const books = await bookModel.getHotList();
+    this.setData({
+      books: books
     });
   },
   onSearching(event) {
